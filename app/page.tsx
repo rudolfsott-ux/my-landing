@@ -1,129 +1,98 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, Variants, easeOut } from 'framer-motion'
 
 export default function Page() {
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState<string | undefined>()
 
-  // Reusable fade-in + slide-up animation
-  const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setStatus('loading')
+    setStatus('idle')
+    setErrorMsg(undefined)
+
     try {
-      // Replace this with your Notion/API submission
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      console.log({ email })
+      // TODO: call your API here
       setStatus('success')
-      setEmail('')
-    } catch {
+    } catch (err) {
+      setErrorMsg('Something went wrong!')
       setStatus('error')
     }
   }
 
+  const fadeUp: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: easeOut },
+    },
+  }
+
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center justify-start bg-cover bg-center relative px-4 sm:px-6 lg:px-20"
+      className="min-h-screen w-full bg-cover bg-center flex flex-col items-center"
       style={{ backgroundImage: "url('/ranran-bg.png')" }}
     >
-      {/* LAUNCHING JANUARY 2026 */}
+      {/* Section 1 */}
       <motion.h2
-        className="font-outfit text-[#BDBDBD] font-normal text-[21px] sm:text-[24px] md:text-[28px] leading-[72px] tracking-[6px] text-center mt-28 sm:mt-36"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
+        className="text-center font-outfit font-normal text-[21px] leading-[72px] tracking-[6px] text-[#F7F7F7] mt-[224.79px] w-[703px]"
       >
         LAUNCHING JANUARY 2026
       </motion.h2>
 
-      {/* Headline */}
+      {/* Section 2 */}
       <motion.h1
-        className="font-outfit font-medium text-[36px] sm:text-[48px] md:text-[61px] leading-[1.2] tracking-[5%] text-white text-center mt-8 px-4 sm:px-0"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
+        className="text-center font-outfit font-medium text-[61px] leading-[61px] tracking-[5%] text-white mt-[40px] w-[1166px]"
       >
         Join fellow early adopters shaping the future of car sharing
       </motion.h1>
 
-      {/* Subtext */}
+      {/* Section 3 */}
       <motion.p
-        className="font-outfit font-light text-[18px] sm:text-[20px] md:text-[24px] leading-[1.3] tracking-[5%] text-[#F7F7F7] text-center mt-6 max-w-xl px-2"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
+        className="text-center font-outfit font-light text-[24px] leading-[27px] tracking-[5%] text-[#F7F7F7] mt-[120px] w-[657px]"
       >
-        Get early access to something exciting! Join the waiting list and stay in the loop on our launch.
+        Get early access to something exciting!<br />
+        Join the waiting list and stay in the loop on our launch.
       </motion.p>
 
-      {/* Form */}
+      {/* Input and Button */}
       <motion.form
-        onSubmit={handleSubmit}
-        className="flex flex-col items-center gap-4 mt-8 w-full max-w-lg"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center mt-[60px] gap-4"
       >
         <input
           type="email"
-          placeholder="Your e-mail address here"
+          placeholder="Your e-mail address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full h-[72px] rounded-[36px] border-2 border-[#BDBDBD] bg-[#F7F7F7] px-6 text-[#BDBDBD] placeholder-[#BDBDBD] focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-lg"
+          className="w-[574px] h-[72px] rounded-[36px] border-2 border-[#BDBDBD] px-6 text-[#BDBDBD] bg-[#F7F7F7] placeholder-[#BDBDBD]"
           required
         />
         <button
           type="submit"
-          disabled={status === 'loading'}
-          className={`w-full h-[72px] mt-2 rounded-[20px] font-semibold text-white text-lg transition-all duration-300
-            ${status === 'idle' ? 'bg-gradient-to-r from-[#0B0926D9] via-[#7F9FB9] to-[#CC5760B2] hover:scale-105 hover:shadow-lg' : ''}
-            ${status === 'loading' ? 'bg-gray-500 cursor-not-allowed animate-pulse' : ''}
-            ${status === 'success' ? 'bg-green-600 hover:scale-105' : ''}
-            ${status === 'error' ? 'bg-red-600 hover:scale-105' : ''}
-          `}
+          className="w-[570px] h-[72px] rounded-[20px] bg-gradient-to-r from-[#0B0926D9] via-[#7F9FB9] to-[#CC5760B2] text-white font-medium"
         >
-          {status === 'idle' && 'Join waiting list'}
-          {status === 'loading' && 'Submitting...'}
-          {status === 'success' && 'Submitted!'}
-          {status === 'error' && 'Try Again'}
+          Join waiting list
         </button>
-      </motion.form>
-
-      {/* Privacy text */}
-      <motion.p
-        className="font-outfit font-light text-[12px] leading-[24px] tracking-[5%] text-[#F7F7F7] text-center mt-4"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeUp}
-      >
-        We’ll never spam or share your email. Unsubscribe anytime.
-      </motion.p>
-
-      {/* Follow us + logos */}
-      <motion.div
-        className="flex items-center gap-4 mt-20"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeUp}
-      >
-        <p className="font-outfit font-light text-[15px] leading-[27px] tracking-[5%] text-[#F7F7F7]">
-          Follow us
-        </p>
-        <motion.img src="/logo1.png" alt="Logo 1" className="w-[21px] h-[21px]" whileHover={{ scale: 1.2 }} />
-        <motion.img src="/logo2.png" alt="Logo 2" className="w-[16px] h-[16px]" whileHover={{ scale: 1.2 }} />
-        <motion.img src="/logo3.png" alt="Logo 3" className="w-[16px] h-[15px]" whileHover={{ scale: 1.2 }} />
-      </motion.div>
-    </div>
-  )
-}
+        {status === 'success' && <p className="text-green-600 mt-2">Submitted!</p>}
+        {status === 'error' && <p className="tex
