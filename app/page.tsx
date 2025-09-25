@@ -4,13 +4,13 @@ import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
-      ease: "easeOut" as any, // ✅ Cast to bypass TS error
+      duration: 0.6,
+      ease: "easeOut" as any, // TS strict fix
     },
   },
 };
@@ -22,7 +22,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Example: send to backend / API
+      // TODO: Replace with API call when backend ready
       // await fetch("/api/subscribe", { method: "POST", body: JSON.stringify({ email }) });
 
       setStatus("success");
@@ -33,9 +33,10 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-black px-4">
+    <main className="flex flex-col items-center justify-center min-h-screen bg-black px-6 py-12">
+      {/* Launching text */}
       <motion.h2
-        className="text-[#F7F7F7] font-outfit font-normal text-center tracking-widest text-lg md:text-xl lg:text-2xl"
+        className="text-[#F7F7F7] font-outfit font-normal text-center tracking-[0.15em] text-[clamp(0.9rem,2vw,1.4rem)]"
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
@@ -44,8 +45,9 @@ export default function Home() {
         LAUNCHING JANUARY 2026
       </motion.h2>
 
+      {/* Main headline */}
       <motion.h1
-        className="text-white font-outfit font-medium text-center text-3xl md:text-5xl lg:text-6xl mt-12 leading-snug tracking-[0.05em]"
+        className="text-white font-outfit font-semibold text-center mt-10 leading-tight tracking-wide text-[clamp(2rem,5vw,3.5rem)] max-w-4xl"
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
@@ -54,8 +56,9 @@ export default function Home() {
         Join fellow early adopters shaping the future of car sharing
       </motion.h1>
 
+      {/* Subtext */}
       <motion.p
-        className="text-[#F7F7F7] font-outfit font-light text-center text-base md:text-lg mt-6 tracking-[0.05em]"
+        className="text-[#E0E0E0] font-outfit font-light text-center mt-6 max-w-2xl text-[clamp(1rem,2vw,1.25rem)] tracking-wide"
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
@@ -64,37 +67,52 @@ export default function Home() {
         Get early access to something exciting! Join the waiting list and stay in the loop on our launch.
       </motion.p>
 
-      <form onSubmit={handleSubmit} className="flex flex-col items-center mt-12 w-full max-w-lg gap-4">
+      {/* Signup form */}
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col sm:flex-row items-center gap-4 mt-12 w-full max-w-xl"
+      >
         <input
           type="email"
           placeholder="Your e-mail address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full px-6 py-4 rounded-full border border-gray-400 bg-[#F7F7F7] text-[#BDBDBD] font-outfit text-lg focus:outline-none"
+          className="flex-1 px-5 py-4 rounded-full border border-gray-600 bg-[#1A1A1A] text-white placeholder-gray-400 font-outfit text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-white transition"
         />
 
         <button
           type="submit"
-          className="w-full px-6 py-4 rounded-xl bg-white text-black font-outfit font-medium hover:bg-gray-200 transition-all duration-300"
+          className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-outfit font-medium text-base sm:text-lg hover:bg-gray-200 active:scale-95 transition-all duration-200"
         >
           Join waiting list
         </button>
-
-        {status === "success" && <p className="text-green-600 mt-2">Submitted!</p>}
-        {status === "error" && <p className="text-red-600 mt-2">Submission failed. Try again.</p>}
       </form>
 
-      {/* Lower logos */}
-      <motion.div className="flex justify-center gap-8 mt-16 flex-wrap">
+      {/* Status messages */}
+      {status === "success" && (
+        <p className="text-green-500 mt-3 font-outfit">Thanks! You’re on the list 🚀</p>
+      )}
+      {status === "error" && (
+        <p className="text-red-500 mt-3 font-outfit">Oops! Something went wrong. Try again.</p>
+      )}
+
+      {/* Logos */}
+      <motion.div
+        className="flex justify-center gap-10 mt-20 flex-wrap"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         {["Logo1", "Logo2", "Logo3"].map((logo, idx) => (
           <motion.div
             key={idx}
-            className="w-24 h-24 bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer"
-            whileHover={{ y: -5, scale: 1.05 }}
-            transition={{ duration: 0.3 }}
+            className="w-24 h-24 bg-gray-800 rounded-xl flex items-center justify-center cursor-pointer shadow-md"
+            whileHover={{ y: -6, scale: 1.08 }}
+            transition={{ duration: 0.25 }}
           >
-            <span className="text-white font-outfit">{logo}</span>
+            <span className="text-white font-outfit text-sm">{logo}</span>
           </motion.div>
         ))}
       </motion.div>
