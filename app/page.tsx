@@ -1,95 +1,92 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
 export default function Page() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMsg, setErrorMsg] = useState<string | undefined>()
 
-  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  // Reusable fade-in + slide-up animation
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
+  }
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('loading')
-    setErrorMsg(undefined)
-
-    if (!validateEmail(email)) {
-      setStatus('error')
-      setErrorMsg('Please enter a valid email address')
-      return
-    }
-
     try {
-      await new Promise((res) => setTimeout(res, 1000))
-      console.log({ email })
+      // Replace this with your Notion/API submission
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       setStatus('success')
       setEmail('')
     } catch {
       setStatus('error')
-      setErrorMsg('Something went wrong. Try again.')
     }
-  }
-
-  // Animation variants
-  const fadeUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
   }
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-between bg-cover bg-center px-4 sm:px-6 md:px-12"
+      className="min-h-screen w-full flex flex-col items-center justify-start bg-cover bg-center relative px-4 sm:px-6 lg:px-20"
       style={{ backgroundImage: "url('/ranran-bg.png')" }}
     >
-      {/* Top Section */}
-      <motion.div
+      {/* LAUNCHING JANUARY 2026 */}
+      <motion.h2
+        className="font-outfit text-[#BDBDBD] font-normal text-[21px] sm:text-[24px] md:text-[28px] leading-[72px] tracking-[6px] text-center mt-28 sm:mt-36"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
-        className="flex flex-col items-center justify-center mt-28 sm:mt-36 md:mt-48 text-center space-y-6 w-full"
       >
-        {/* Launching Header */}
-        <h1 className="font-outfit font-normal text-[#BDBDBD] tracking-[6px] text-[21px] sm:text-[24px] md:text-[28px] leading-[72px] max-w-[703px] mx-auto">
-          LAUNCHING JANUARY 2026
-        </h1>
+        LAUNCHING JANUARY 2026
+      </motion.h2>
 
-        {/* Main Title */}
-        <h2 className="font-outfit font-medium text-white tracking-[5%] text-[40px] sm:text-[50px] md:text-[61px] leading-[61px] max-w-[1166px] px-2 mx-auto">
-          Join fellow early adopters shaping the future of car sharing
-        </h2>
+      {/* Headline */}
+      <motion.h1
+        className="font-outfit font-medium text-[36px] sm:text-[48px] md:text-[61px] leading-[1.2] tracking-[5%] text-white text-center mt-8 px-4 sm:px-0"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeUp}
+      >
+        Join fellow early adopters shaping the future of car sharing
+      </motion.h1>
 
-        {/* Subtitle */}
-        <p className="font-outfit font-light text-white tracking-[5%] text-[18px] sm:text-[22px] md:text-[24px] leading-[27px] max-w-[657px] px-2 mx-auto">
-          Get early access to something exciting! Join the waiting list and stay in the loop on our launch.
-        </p>
-      </motion.div>
+      {/* Subtext */}
+      <motion.p
+        className="font-outfit font-light text-[18px] sm:text-[20px] md:text-[24px] leading-[1.3] tracking-[5%] text-[#F7F7F7] text-center mt-6 max-w-xl px-2"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeUp}
+      >
+        Get early access to something exciting! Join the waiting list and stay in the loop on our launch.
+      </motion.p>
 
-      {/* Form Section */}
+      {/* Form */}
       <motion.form
         onSubmit={handleSubmit}
+        className="flex flex-col items-center gap-4 mt-8 w-full max-w-lg"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
-        className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-[574px]"
       >
         <input
           type="email"
           placeholder="Your e-mail address here"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="flex-1 border-2 border-[#BDBDBD] rounded-full p-4 placeholder-[#BDBDBD] focus:outline-none focus:ring-2 focus:ring-blue-400 transition w-full sm:w-auto"
+          className="w-full h-[72px] rounded-[36px] border-2 border-[#BDBDBD] bg-[#F7F7F7] px-6 text-[#BDBDBD] placeholder-[#BDBDBD] focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-lg"
           required
         />
         <button
           type="submit"
           disabled={status === 'loading'}
-          className={`w-full sm:w-auto py-4 px-8 rounded-xl font-semibold text-white text-lg transition-all duration-300
+          className={`w-full h-[72px] mt-2 rounded-[20px] font-semibold text-white text-lg transition-all duration-300
             ${status === 'idle' ? 'bg-gradient-to-r from-[#0B0926D9] via-[#7F9FB9] to-[#CC5760B2] hover:scale-105 hover:shadow-lg' : ''}
-            ${status === 'loading' ? 'bg-gray-500 cursor-not-allowed' : ''}
+            ${status === 'loading' ? 'bg-gray-500 cursor-not-allowed animate-pulse' : ''}
             ${status === 'success' ? 'bg-green-600 hover:scale-105' : ''}
             ${status === 'error' ? 'bg-red-600 hover:scale-105' : ''}
           `}
@@ -101,52 +98,32 @@ export default function Page() {
         </button>
       </motion.form>
 
-      {/* Disclaimer */}
+      {/* Privacy text */}
       <motion.p
+        className="font-outfit font-light text-[12px] leading-[24px] tracking-[5%] text-[#F7F7F7] text-center mt-4"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
-        className="mt-6 font-outfit font-light tracking-[5%] text-white/80 text-[12px] leading-[24px] max-w-[657px] text-center mx-auto px-2"
       >
         We’ll never spam or share your email. Unsubscribe anytime.
       </motion.p>
 
-      {/* Footer */}
+      {/* Follow us + logos */}
       <motion.div
+        className="flex items-center gap-4 mt-20"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
-        className="flex items-center gap-4 mb-12"
       >
-        <span className="text-white text-[15px] font-light tracking-[5%]">Follow us</span>
-        <div className="flex gap-3">
-          <img src="/logo1.png" alt="Logo 1" className="w-[21px] h-[21px]" />
-          <img src="/logo2.png" alt="Logo 2" className="w-[16px] h-[16px]" />
-          <img src="/logo3.png" alt="Logo 3" className="w-[16px] h-[15px]" />
-        </div>
+        <p className="font-outfit font-light text-[15px] leading-[27px] tracking-[5%] text-[#F7F7F7]">
+          Follow us
+        </p>
+        <motion.img src="/logo1.png" alt="Logo 1" className="w-[21px] h-[21px]" whileHover={{ scale: 1.2 }} />
+        <motion.img src="/logo2.png" alt="Logo 2" className="w-[16px] h-[16px]" whileHover={{ scale: 1.2 }} />
+        <motion.img src="/logo3.png" alt="Logo 3" className="w-[16px] h-[15px]" whileHover={{ scale: 1.2 }} />
       </motion.div>
-
-      {/* Submission feedback */}
-      {status === 'success' && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="absolute mt-4 text-green-500 text-center bottom-36 sm:bottom-36 md:bottom-36"
-        >
-          Submitted!
-        </motion.p>
-      )}
-      {status === 'error' && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="absolute mt-4 text-red-500 text-center bottom-36 sm:bottom-36 md:bottom-36"
-        >
-          {errorMsg}
-        </motion.p>
-      )}
     </div>
   )
 }
