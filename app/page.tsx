@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.8,
-      ease: "easeOut",
+      ease: "easeOut" as any, // ✅ Cast to bypass TS error
     },
   },
 };
@@ -86,7 +86,7 @@ export default function Home() {
       </form>
 
       {/* Lower logos */}
-      <motion.div className="flex justify-center gap-8 mt-16">
+      <motion.div className="flex justify-center gap-8 mt-16 flex-wrap">
         {["Logo1", "Logo2", "Logo3"].map((logo, idx) => (
           <motion.div
             key={idx}
