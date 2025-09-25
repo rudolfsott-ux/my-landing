@@ -1,145 +1,130 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import { motion, Variants, easeOut } from 'framer-motion'
+import { useState } from "react";
+import { motion } from "framer-motion";
 
-// Fade-up variant for single element
-const fadeUp: Variants = {
+const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: (custom: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: easeOut, delay: custom },
-  }),
-}
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] } },
+};
 
-export default function Page() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [errorMsg, setErrorMsg] = useState<string | undefined>()
+export default function LandingPage() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setStatus('idle')
-    setErrorMsg(undefined)
-
-    if (email) {
-      setStatus('success')
-    } else {
-      setStatus('error')
-      setErrorMsg('Please enter a valid email')
-    }
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate submission
+    if (email.includes("@")) setStatus("success");
+    else setStatus("error");
+  };
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-start bg-cover bg-center px-4 md:px-0"
-      style={{ backgroundImage: "url('/ranran-bg.png')" }}
-    >
-      {/* Launching text */}
+    <div className="relative min-h-screen w-full bg-black flex flex-col items-center justify-start overflow-hidden">
+      {/* Background */}
+      <img
+        src="/ranran-bg.png"
+        alt="Background"
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+      />
+
       <motion.h2
-        className="text-[#BDBDBD] font-outfit font-normal text-center mt-[225px] md:mt-[10vh] text-[21px] md:text-[3vw] leading-[72px] tracking-[6px]"
+        className="text-[#BDBDBD] font-outfit font-normal text-center"
         variants={fadeUp}
         initial="hidden"
-        animate="visible"
-        custom={0}
+        whileInView="visible"
+        viewport={{ once: true }}
+        style={{ fontSize: "clamp(21px, 3vw, 21px)", lineHeight: "72px", letterSpacing: "6px" }}
       >
         LAUNCHING JANUARY 2026
       </motion.h2>
 
-      {/* Main headline */}
       <motion.h1
-        className="text-white font-outfit font-medium text-center mt-[155px] md:mt-[8vh] text-[61px] md:text-[6vw] leading-[61px] tracking-[5%]"
+        className="text-white font-outfit font-medium text-center mt-16 max-w-[90%]"
         variants={fadeUp}
         initial="hidden"
-        animate="visible"
-        custom={0.2}
+        whileInView="visible"
+        viewport={{ once: true }}
+        style={{ fontSize: "clamp(40px, 6vw, 61px)", lineHeight: "1.2", letterSpacing: "5%" }}
       >
         Join fellow early adopters shaping the future of car sharing
       </motion.h1>
 
-      {/* Subheadline */}
       <motion.p
-        className="text-[#F7F7F7] font-outfit font-light text-center mt-[85px] md:mt-[5vh] text-[24px] md:text-[2.5vw] leading-[27px] tracking-[5%] max-w-[90vw] md:max-w-[657px]"
+        className="text-[#F7F7F7] font-outfit font-light text-center mt-8 max-w-[90%]"
         variants={fadeUp}
         initial="hidden"
-        animate="visible"
-        custom={0.4}
+        whileInView="visible"
+        viewport={{ once: true }}
+        style={{ fontSize: "clamp(18px, 2.5vw, 24px)", lineHeight: "27px", letterSpacing: "5%" }}
       >
-        Get early access to something exciting! Join the waiting list and stay in the loop on our launch.
+        Get early access to something exciting! <br />
+        Join the waiting list and stay in the loop on our launch.
       </motion.p>
 
       {/* Email form */}
-      <motion.form
+      <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center mt-[70px] md:mt-[4vh] gap-4 w-full max-w-[574px]"
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        custom={0.6}
+        className="flex flex-col items-center mt-10 w-full max-w-md"
       >
         <input
           type="email"
           placeholder="Your e-mail address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full h-[72px] rounded-[36px] border-2 border-[#BDBDBD] bg-[#F7F7F7] px-6 text-[#BDBDBD] text-lg placeholder-[#BDBDBD] focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-          required
+          className="w-full h-18 rounded-full border-2 border-[#BDBDBD] bg-[#F7F7F7] px-6 text-[#BDBDBD] text-lg focus:outline-none"
         />
         <button
           type="submit"
-          className="w-[570px] h-[72px] rounded-[20px] bg-gradient-to-r from-[#0B0926D9] via-[#7F9FB9] to-[#CC5760B2] text-white font-semibold text-lg hover:scale-105 transform transition-all duration-300"
+          className="mt-6 w-full h-18 rounded-[20px] bg-gradient-to-r from-[#0B0926D9] via-[#7F9FB9] to-[#CC5760B2] text-white font-outfit font-medium text-lg"
         >
           Join waiting list
         </button>
-        {status === 'success' && <p className="text-green-600 mt-2">Submitted!</p>}
-        {status === 'error' && <p className="text-red-600 mt-2">{errorMsg}</p>}
-      </motion.form>
+        {status === "success" && (
+          <p className="text-green-600 mt-2">Submitted!</p>
+        )}
+        {status === "error" && (
+          <p className="text-red-600 mt-2">Please enter a valid email</p>
+        )}
+      </form>
 
-      {/* Disclaimer */}
       <motion.p
-        className="text-[#F7F7F7] font-outfit font-light text-center mt-[70px] text-[12px] leading-[24px] tracking-[5%] max-w-[657px]"
+        className="text-[#F7F7F7] font-outfit font-light text-center mt-6 max-w-[90%]"
         variants={fadeUp}
         initial="hidden"
-        animate="visible"
-        custom={0.8}
+        whileInView="visible"
+        viewport={{ once: true }}
+        style={{ fontSize: "12px", lineHeight: "24px", letterSpacing: "5%" }}
       >
         We’ll never spam or share your email. Unsubscribe anytime.
       </motion.p>
 
-      {/* Footer with Follow Us and Logos */}
-      <motion.div
-        className="flex items-center justify-center gap-4 mt-[320px] md:mt-[20vh]"
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        custom={1}
-      >
-        <p className="text-[#F7F7F7] font-outfit font-light text-[15px] leading-[27px] tracking-[5%]">
+      {/* Follow us & logos */}
+      <div className="flex items-center justify-center mt-12 space-x-4">
+        <p className="text-[#F7F7F7] font-outfit font-light text-center text-sm">
           Follow us
         </p>
         <motion.img
           src="/logo1.png"
-          alt="Logo 1"
-          className="w-[21px] h-[21px]"
+          alt="Logo1"
+          className="w-5 h-5 cursor-pointer"
           whileHover={{ scale: 1.2 }}
-          transition={{ duration: 0.3 }}
         />
         <motion.img
           src="/logo2.png"
-          alt="Logo 2"
-          className="w-[16px] h-[16px]"
+          alt="Logo2"
+          className="w-4 h-4 cursor-pointer"
           whileHover={{ scale: 1.2 }}
-          transition={{ duration: 0.3 }}
         />
         <motion.img
           src="/logo3.png"
-          alt="Logo 3"
-          className="w-[16px] h-[15px]"
+          alt="Logo3"
+          className="w-4 h-3.5 cursor-pointer"
           whileHover={{ scale: 1.2 }}
-          transition={{ duration: 0.3 }}
         />
-      </motion.div>
+      </div>
+
+      <div className="h-24"></div>
     </div>
-  )
+  );
 }
