@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <main
-      className="relative flex flex-col items-center justify-between min-h-screen bg-cover bg-center px-6 py-12"
+      className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat px-6 py-12"
       style={{ backgroundImage: "url('/ranran-bg.png')" }}
     >
       <div className="flex flex-col items-center justify-center flex-1">
@@ -70,10 +70,10 @@ export default function Home() {
           style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
         >
           <div className="flex flex-col items-center">
-            <motion.span className="block whitespace-nowrap text-center">
+            <motion.span className="block text-center">
               Join fellow early adopters shaping the
             </motion.span>
-            <motion.span className="block whitespace-nowrap text-center">
+            <motion.span className="block text-center">
               future of car sharing
             </motion.span>
           </div>
@@ -94,7 +94,7 @@ export default function Home() {
         {/* Signup form */}
         <motion.form
           onSubmit={handleSubmit}
-          className="flex flex-col items-center gap-4 mt-12 w-full max-w-xl"
+          className="flex flex-col items-center gap-4 mt-12 w-full sm:max-w-xl"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
@@ -106,13 +106,13 @@ export default function Home() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full max-w-[574px] h-[72px] px-5 rounded-[36px] border-2 border-[#BDBDBD] bg-[#F7F7F7] text-[#333] placeholder-[#BDBDBD] font-outfit text-base focus:outline-none focus:ring-2 focus:ring-white transition"
+            className="w-full sm:max-w-[574px] h-[60px] sm:h-[72px] px-5 rounded-[36px] border-2 border-[#BDBDBD] bg-[#F7F7F7] text-[#333] placeholder-[#BDBDBD] font-outfit text-base focus:outline-none focus:ring-2 focus:ring-white transition"
             variants={fadeUp}
           />
 
           <motion.button
             type="submit"
-            className="w-full max-w-[570px] h-[72px] rounded-[20px] text-white font-outfit font-medium text-base sm:text-lg transition-all duration-300"
+            className="w-full sm:max-w-[570px] h-[60px] sm:h-[72px] rounded-[20px] text-white font-outfit font-medium text-base sm:text-lg transition-all duration-300"
             style={{
               background:
                 "linear-gradient(90deg, #0B0926D9 0%, #7F9FB9 50%, #CC5760B2 100%)",
@@ -133,7 +133,7 @@ export default function Home() {
           </motion.button>
 
           <motion.p
-            className="text-[#F7F7F7B0] font-outfit font-light text-center mt-6 max-w-[657px] text-[12px] leading-[24px] tracking-[0.05em]"
+            className="text-[#F7F7F7B0] font-outfit font-light text-center mt-6 w-full sm:max-w-[657px] text-[12px] leading-[20px] sm:leading-[24px] tracking-[0.05em]"
             variants={fadeUp}
           >
             We’ll never spam or share your email. Unsubscribe anytime.
@@ -154,7 +154,7 @@ export default function Home() {
         className="fixed bottom-4 left-0 right-0 w-full flex items-center justify-center gap-4"
         variants={socialContainer}
         initial="hidden"
-        animate="visible" // always animate on load
+        animate="visible"
       >
         <motion.span
           className="text-[#F7F7F7] font-outfit text-sm mr-2"
