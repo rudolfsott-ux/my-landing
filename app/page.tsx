@@ -92,7 +92,8 @@ export default function Home() {
         </motion.p>
 
         {/* Signup form */}
-        <motion.div
+        <motion.form
+          onSubmit={handleSubmit}
           className="flex flex-col items-center gap-4 mt-12 w-full max-w-xl"
           variants={staggerContainer}
           initial="hidden"
@@ -105,7 +106,7 @@ export default function Home() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full max-w-[574px] h-[72px] px-5 rounded-[36px] border-2 border-[#BDBDBD] bg-[#F7F7F7] text-[#BDBDBD] font-outfit text-base focus:outline-none focus:ring-2 focus:ring-white transition"
+            className="w-full max-w-[574px] h-[72px] px-5 rounded-[36px] border-2 border-[#BDBDBD] bg-[#F7F7F7] text-[#333] placeholder-[#BDBDBD] font-outfit text-base focus:outline-none focus:ring-2 focus:ring-white transition"
             variants={fadeUp}
           />
 
@@ -137,7 +138,7 @@ export default function Home() {
           >
             We’ll never spam or share your email. Unsubscribe anytime.
           </motion.p>
-        </motion.div>
+        </motion.form>
 
         {/* Status messages */}
         {status === "success" && (
@@ -150,13 +151,11 @@ export default function Home() {
 
       {/* Social Logos pinned to bottom */}
       <motion.div
-        className="w-full flex items-center justify-center gap-4 pb-6"
+        className="fixed bottom-4 left-0 right-0 w-full flex items-center justify-center gap-4"
         variants={socialContainer}
         initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
+        animate="visible" // always animate on load
       >
-        {/* Follow us now fades in */}
         <motion.span
           className="text-[#F7F7F7] font-outfit text-sm mr-2"
           variants={socialIcon}
@@ -164,7 +163,6 @@ export default function Home() {
           Follow us
         </motion.span>
 
-        {/* Logo1 */}
         <motion.a
           href="#"
           aria-label="Logo1"
@@ -175,7 +173,6 @@ export default function Home() {
           <Image src="/logo1.png" alt="Logo1" width={21} height={21} />
         </motion.a>
 
-        {/* Logo2 */}
         <motion.a
           href="#"
           aria-label="Logo2"
@@ -186,7 +183,6 @@ export default function Home() {
           <Image src="/logo2.png" alt="Logo2" width={16} height={16} />
         </motion.a>
 
-        {/* Logo3 */}
         <motion.a
           href="#"
           aria-label="Logo3"
